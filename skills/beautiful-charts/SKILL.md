@@ -21,11 +21,15 @@ Renders transparent-background PNG charts using Chart.js with a clean, editorial
 ## Pipeline
 
 ```
-Write chart_config.json  →  bunx -y beautiful-chartsjs config.json ./chart.png  →  view ./chart.png
+Write chart_config.json  →  bunx -y beautiful-chartsjs config.json ~/chart.png  →  exportFile + ![...](url)
 ```
 
-> **Display rule:** `view ./chart.png` or `![chart.png](./chart.png)` to renders inline in chat.
-> `present_files` alone shows a download button with no preview — always call `view` first.
+> **Display rule:** After `bunx` saves to `~/chart.png` (cross-platform path):
+>
+> 1. Call `exportFile` tool on `~/chart.png` to get a public URL
+> 2. Display the image using `![title](public_url)` — renders inline in chat
+>
+> `present_files` alone shows a download button with no preview — always use `exportFile` + `![...](url)` first.
 
 ---
 
@@ -86,13 +90,18 @@ Full dataset schemas for every chart type: see `schemas.md`
 ## Step 3 — Run & display
 
 ```bash
-# Render
+# Render (output goes to ~/chart.png — works on Mac, Linux, Windows)
 bunx -y beautiful-chartsjs chart_config.json ~/chart.png
+```
 
-# Show inline in chat (REQUIRED)
-# → call the view tool on ~/chart.png
+**Show inline in chat (REQUIRED):**
 
-# Optional: offer download
+1. Export to get a public display URL: `exportFile("~/chart.png")`
+2. Use the returned URL: `![Chart Title](https://app.lobehub.com/f/file_XXXXXXX)`
+
+**Optional download:**
+
+```bash
 cp ~/chart.png ./outputs/chart.png
 # → call present_files ["./outputs/chart.png"]
 ```
@@ -173,16 +182,16 @@ cp ~/chart.png ./outputs/chart.png
 - [ ] Colors are names (`"blue"`), not hex
 - [ ] `yMin`/`yMax` set intentionally
 - [ ] `title` + `subtitle` present
-- [ ] Output to `./chart.png`
-- [ ] `view` called after render (inline display)
+- [ ] Output to `~/chart.png` (cross-platform home directory)
+- [ ] `exportFile` called after render → display with `![title](url)`
 - [ ] `hbar` height = `numRows × 48 + 100`
 
 ## Common mistakes
 
-| Wrong                      | Right                        |
-| -------------------------- | ---------------------------- |
-| Only `present_files`       | Call `view` first            |
-| `node render_chart.js`     | `bunx -y beautiful-chartsjs` |
-| Hex in `"color"` field     | Use name: `"blue"`           |
-| Donut top-level `"labels"` | Use `datasets[0].labels`     |
-| Auto y-axis on price data  | Set `"yMin"` explicitly      |
+| Wrong                      | Right                                       |
+| -------------------------- | ------------------------------------------- |
+| Only `present_files`       | Call `exportFile` first, then `![...](url)` |
+| `node render_chart.js`     | `bunx -y beautiful-chartsjs`                |
+| Hex in `"color"` field     | Use name: `"blue"`                          |
+| Donut top-level `"labels"` | Use `datasets[0].labels`                    |
+| Auto y-axis on price data  | Set `"yMin"` explicitly                     |

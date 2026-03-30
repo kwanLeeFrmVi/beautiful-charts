@@ -20,11 +20,15 @@ Renders transparent-background PNG diagrams directly using `@mermaid-js/mermaid-
 ## Pipeline
 
 ```
-Write diagram.mmd  →  bunx -y @mermaid-js/mermaid-cli -i diagram.mmd -o ~/diagram.png -b transparent -s 2  →  view ~/diagram.png
+Write diagram.mmd  →  bunx -y @mermaid-js/mermaid-cli -i diagram.mmd -o ~/diagram.png -b transparent -s 2  →  exportFile + ![...](url)
 ```
 
-> **Display rule:** `view ./diagram.png` or `![diagram.png](./diagram.png)` to renders inline in chat.
-> `present_files` alone shows a download button with no preview — always call `view` first.
+> **Display rule:** After rendering to `~/diagram.png` (cross-platform path):
+>
+> 1. Call `exportFile` tool on `~/diagram.png` to get a public URL
+> 2. Display the image using `![title](public_url)` — renders inline in chat
+>
+> `present_files` alone shows a download button with no preview — always use `exportFile` + `![...](url)` first.
 
 ---
 
@@ -76,13 +80,19 @@ Use `bunx -y @mermaid-js/mermaid-cli` (or `mmdc`) to render the diagram.
 
 ```bash
 # Render with transparent background, forest theme, and 2x scale
-bunx -y @mermaid-js/mermaid-cli -i diagram.mmd -o ./diagram.png -b transparent -t forest -s 2
+# Output to ~/diagram.png (cross-platform home directory)
+bunx -y @mermaid-js/mermaid-cli -i diagram.mmd -o ~/diagram.png -b transparent -t forest -s 2
+```
 
-# Show inline in chat (REQUIRED)
-# → call the view tool on ./diagram.png
+**Show inline in chat (REQUIRED):**
 
-# Optional: offer download
-cp ./diagram.png ./outputs/diagram.png
+1. Export to get a public display URL: `exportFile("~/diagram.png")`
+2. Use the returned URL: `![Diagram Title](https://app.lobehub.com/f/file_XXXXXXX)`
+
+**Optional download:**
+
+```bash
+cp ~/diagram.png ./outputs/diagram.png
 # → call present_files ["./outputs/diagram.png"]
 ```
 
@@ -142,16 +152,16 @@ bunx -y @mermaid-js/mermaid-cli -i data_model.mmd -o ./diagram.png -b transparen
 
 - [ ] `diagram.mmd` contains valid Mermaid syntax
 - [ ] Render command uses `-b transparent` and `-s 2` for high quality
-- [ ] Output to `./diagram.png`
-- [ ] `view` called after render (inline display)
+- [ ] Output to `~/diagram.png` (cross-platform home directory)
+- [ ] `exportFile` called after render → display with `![title](url)`
 - [ ] `classDef` used for custom styling when needed
 
 ## Common mistakes
 
-| Wrong                          | Right                               |
-| ------------------------------ | ----------------------------------- |
-| Only `present_files`           | Call `view` first                   |
-| Invalid Mermaid syntax         | Validate syntax first               |
-| Missing semicolons in syntax   | End each statement with `;`         |
-| Blurry output                  | Add `-s 2` or `-s 3` to the command |
-| White background covering text | Add `-b transparent` to the command |
+| Wrong                          | Right                                       |
+| ------------------------------ | ------------------------------------------- |
+| Only `present_files`           | Call `exportFile` first, then `![...](url)` |
+| Invalid Mermaid syntax         | Validate syntax first                       |
+| Missing semicolons in syntax   | End each statement with `;`                 |
+| Blurry output                  | Add `-s 2` or `-s 3` to the command         |
+| White background covering text | Add `-b transparent` to the command         |
