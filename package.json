@@ -1,6 +1,6 @@
 {
   "name": "beautiful-chartsjs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Beautiful Chart renderer — Bun + Chart.js, zero system deps",
   "author": "quanle96",
   "repository": {
