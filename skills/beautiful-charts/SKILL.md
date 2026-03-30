@@ -1,13 +1,7 @@
 ---
 name: beautiful-charts
 description: >-
-  Renders beautiful, publication-quality chart images (transparent PNG) from structured data using
-  Bun + Chart.js. Use this skill whenever the user asks to draw, plot, chart, graph, or visualize any
-  data — including "make a bar chart", "plot this data", "show me a line graph", "visualize these
-  numbers", "create a donut chart", or any request to turn tables or numbers into a PNG image.
-  Also trigger when the user uploads a CSV or spreadsheet and wants it visualized. Supports line,
-  bar, horizontal bar, area, scatter, and donut chart types. Always use this skill proactively —
-  do not attempt to describe a chart in prose when a visual is possible.
+  Renders PNG charts (line, bar, hbar, area, scatter, donut) from data/CSV using Chart.js. Trigger for requests to draw, plot, chart, graph, or visualize data/numbers. Use proactively instead of prose.
 metadata:
   author: quanle96
   version: "2.0.0"
@@ -15,7 +9,6 @@ tags:
   - charts
   - visualization
   - chartjs
-  - bun
   - data
   - png
   - plotting
@@ -23,24 +16,15 @@ tags:
 
 # Beautiful Charts → PNG
 
-Renders transparent-background PNG charts using Bun + Chart.js with a clean, editorial design system.
+Renders transparent-background PNG charts using Chart.js with a clean, editorial design system.
 
 ## Pipeline
 
 ```
-Write chart_config.json  →  bunx -y beautiful-chartsjs config.json ~/chart.png  →  view ~/chart.png
+Write chart_config.json  →  bunx -y beautiful-chartsjs config.json ./chart.png  →  view ./chart.png
 ```
 
-No install required — `bunx` downloads and runs the renderer on demand. Requires **Bun** (one-time setup).
-
-**One-time Bun install:**
-
-```bash
-curl -fsSL https://bun.sh/install | bash   # macOS / Linux
-powershell -c "irm bun.sh/install.ps1|iex" # Windows
-```
-
-> **Display rule:** `view /home/claude/chart.png` renders inline in chat.
+> **Display rule:** `view ./chart.png` renders inline in chat.
 > `present_files` alone shows a download button with no preview — always call `view` first.
 
 ---
@@ -63,29 +47,39 @@ powershell -c "irm bun.sh/install.ps1|iex" # Windows
 
 ## Step 2 — Write chart_config.json
 
-```jsonc
+```json
 {
-  "type":     "line",          // required
-  "title":    "Chart title",   // top-left, 15px
-  "subtitle": "Unit · note",   // muted, below title
-  "source":   "Source: XYZ",  // bottom-left, tiny
-  "labels":   ["A", "B"],     // x-axis (or y-axis for hbar)
-  "yMin":     0,               // set explicitly — never leave to auto
+  "type":     "line",
+  "title":    "Chart title",
+  "subtitle": "Unit · note",
+  "source":   "Source: XYZ",
+  "labels":   ["A", "B"],
+  "yMin":     0,
   "yMax":     120,
-  "yPrefix":  "$",             // prepended to y ticks → "$90"
-  "ySuffix":  "M",             // appended  to y ticks → "90M"
-  "width":    900,             // px, default 900
-  "height":   480,             // px, default 480
+  "yPrefix":  "$",
+  "ySuffix":  "M",
+  "width":    900,
+  "height":   480,
   "datasets": [ ... ]
 }
 ```
+
+**Field notes:**
+
+- `type` — required chart type
+- `title` — top-left, 15px font
+- `subtitle` — muted, below title
+- `source` — bottom-left, tiny font
+- `labels` — x-axis labels (or y-axis for hbar)
+- `yMin`/`yMax` — set explicitly, never leave to auto
+- `yPrefix`/`ySuffix` — prepended/appended to y ticks
 
 **Color names** (always use names, never hex):
 `"blue"` · `"red"` · `"teal"` · `"amber"` · `"purple"` · `"gray"`
 
 First series → `blue`. Second → `red`. Third → `teal`. Max 2–3 colors per chart.
 
-Full dataset schemas for every chart type: see [references/schemas.md](references/schemas.md)
+Full dataset schemas for every chart type: see `schemas.md`
 
 ---
 
@@ -93,21 +87,21 @@ Full dataset schemas for every chart type: see [references/schemas.md](reference
 
 ```bash
 # Render
-bunx -y beautiful-chartsjs chart_config.json /home/claude/chart.png
+bunx -y beautiful-chartsjs chart_config.json ~/chart.png
 
 # Show inline in chat (REQUIRED)
-# → call the view tool on /home/claude/chart.png
+# → call the view tool on ~/chart.png
 
 # Optional: offer download
-cp /home/claude/chart.png /mnt/user-data/outputs/chart.png
-# → call present_files ["/mnt/user-data/outputs/chart.png"]
+cp ~/chart.png ./outputs/chart.png
+# → call present_files ["./outputs/chart.png"]
 ```
 
 ---
 
-## Quick examples
+### Quick examples
 
-**Line — oil prices**
+#### Line — oil prices
 
 ```json
 {
@@ -135,7 +129,7 @@ cp /home/claude/chart.png /mnt/user-data/outputs/chart.png
 }
 ```
 
-**Bar — revenue**
+#### Bar — revenue
 
 ```json
 {
@@ -144,6 +138,7 @@ cp /home/claude/chart.png /mnt/user-data/outputs/chart.png
   "subtitle": "USD millions",
   "labels": ["Q1", "Q2", "Q3", "Q4"],
   "yMin": 0,
+  "yMax": 30,
   "yPrefix": "$",
   "ySuffix": "M",
   "datasets": [
@@ -153,7 +148,7 @@ cp /home/claude/chart.png /mnt/user-data/outputs/chart.png
 }
 ```
 
-**Donut — market share**
+#### Donut — market share
 
 ```json
 {
@@ -178,7 +173,7 @@ cp /home/claude/chart.png /mnt/user-data/outputs/chart.png
 - [ ] Colors are names (`"blue"`), not hex
 - [ ] `yMin`/`yMax` set intentionally
 - [ ] `title` + `subtitle` present
-- [ ] Output to `/home/claude/chart.png`
+- [ ] Output to `./chart.png`
 - [ ] `view` called after render (inline display)
 - [ ] `hbar` height = `numRows × 48 + 100`
 
