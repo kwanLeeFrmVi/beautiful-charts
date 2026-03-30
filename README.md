@@ -41,14 +41,17 @@ bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts chart_config.json outpu
 
 ### Chart Types
 
-| Chart Type | Use Case                  | Config Type |
-| ---------- | ------------------------- | ----------- |
-| `line`     | Trend over time           | `line`      |
-| `bar`      | Period comparisons        | `bar`       |
-| `hbar`     | Rankings / long labels    | `hbar`      |
-| `area`     | Filled trend              | `area`      |
-| `scatter`  | Correlation               | `scatter`   |
-| `donut`    | Part-of-whole (≤6 slices) | `donut`     |
+| Chart Type  | Use Case                  | Config Type |
+| ----------- | ------------------------- | ----------- |
+| `line`      | Trend over time           | `line`      |
+| `bar`       | Period comparisons        | `bar`       |
+| `hbar`      | Rankings / long labels    | `hbar`      |
+| `area`      | Filled trend              | `area`      |
+| `scatter`   | Correlation / bubbles     | `scatter`   |
+| `donut`     | Part-of-whole (with hole) | `donut`     |
+| `pie`       | Part-of-whole (solid)     | `pie`       |
+| `polarArea` | Circular comparison       | `polarArea` |
+| `radar`     | Multivariate comparison   | `radar`     |
 
 ### Configuration Format
 

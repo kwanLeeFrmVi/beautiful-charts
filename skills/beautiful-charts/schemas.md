@@ -78,7 +78,7 @@ Full dataset schemas for every chart type supported by `render_chart.py`.
 
 ---
 
-## donut — part-of-whole
+## donut — part-of-whole (with hole)
 
 ```json
 "datasets": [
@@ -96,37 +96,87 @@ Full dataset schemas for every chart type supported by `render_chart.py`.
 
 ---
 
+## pie — part-of-whole (solid)
+
+```json
+"datasets": [
+  {
+    "labels": ["Product A", "Product B", "Product C", "Product D"],
+    "colors": ["blue", "red", "teal", "amber"],
+    "data":   [40, 30, 20, 10]
+  }
+]
+```
+
+- Same schema as `donut` — just no center hole
+- Use `datasets[0].labels` and `datasets[0].colors`
+
+---
+
+## polarArea — circular comparison
+
+```json
+"datasets": [
+  {
+    "labels": ["Speed", "Reliability", "Comfort", "Efficiency"],
+    "colors": ["blue", "red", "teal", "amber"],
+    "data":   [85, 72, 90, 68]
+  }
+]
+```
+
+- Each slice has equal angle; radius reflects value
+- Same schema as `donut`/`pie`
+
+---
+
+## radar — multivariate comparison
+
+```json
+"labels": ["Coding", "Design", "Communication", "Leadership", "Testing"],
+"datasets": [
+  { "label": "Developer A", "color": "blue", "data": [90, 65, 70, 55, 75] },
+  { "label": "Developer B", "color": "red",  "data": [75, 80, 85, 70, 90] }
+]
+```
+
+- Top-level `"labels"` = axis labels around the circle
+- Multiple datasets overlay for comparison
+- Each `data` array length must equal `labels` length
+
+---
+
 ## Color palette
 
-| Name | Hex | Use for |
-|---|---|---|
-| `"blue"` | `#185FA5` | 1st / primary |
-| `"red"` | `#E24B4A` | 2nd / negative |
-| `"teal"` | `#1D9E75` | 3rd / positive |
-| `"amber"` | `#BA7517` | 4th / warning |
-| `"purple"` | `#534AB7` | 5th |
-| `"gray"` | `#888780` | neutral / other |
+| Name       | Hex       | Use for         |
+| ---------- | --------- | --------------- |
+| `"blue"`   | `#185FA5` | 1st / primary   |
+| `"red"`    | `#E24B4A` | 2nd / negative  |
+| `"teal"`   | `#1D9E75` | 3rd / positive  |
+| `"amber"`  | `#BA7517` | 4th / warning   |
+| `"purple"` | `#534AB7` | 5th             |
+| `"gray"`   | `#888780` | neutral / other |
 
 ---
 
 ## Sizing guide
 
-| Use case | width × height |
-|---|---|
-| Default | 900 × 480 |
-| Wide panel | 1200 × 400 |
-| Square / social | 800 × 800 |
-| hbar (N rows) | 900 × (N×48 + 100) |
-| Thumbnail | 600 × 320 |
+| Use case        | width × height     |
+| --------------- | ------------------ |
+| Default         | 900 × 480          |
+| Wide panel      | 1200 × 400         |
+| Square / social | 800 × 800          |
+| hbar (N rows)   | 900 × (N×48 + 100) |
+| Thumbnail       | 600 × 320          |
 
 ---
 
 ## Y-axis formatting
 
-| Data type | Config |
-|---|---|
-| Dollar | `"yPrefix": "$"` |
-| Percent | `"ySuffix": "%"` |
-| Millions | `"ySuffix": "M"` (data already in M) |
+| Data type               | Config                                |
+| ----------------------- | ------------------------------------- |
+| Dollar                  | `"yPrefix": "$"`                      |
+| Percent                 | `"ySuffix": "%"`                      |
+| Millions                | `"ySuffix": "M"` (data already in M)  |
 | Price range e.g. 88–113 | `"yMin": 80` — do not auto-scale to 0 |
-| Must start at zero | `"yMin": 0` explicitly |
+| Must start at zero      | `"yMin": 0` explicitly                |

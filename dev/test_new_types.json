@@ -1,0 +1,29 @@
+{
+  "pie": {
+    "type": "pie",
+    "title": "Market Share",
+    "datasets": [{
+      "labels": ["Product A", "Product B", "Product C", "Product D"],
+      "colors": ["blue", "red", "teal", "amber"],
+      "data": [40, 30, 20, 10]
+    }]
+  },
+  "polarArea": {
+    "type": "polarArea",
+    "title": "Performance Metrics",
+    "datasets": [{
+      "labels": ["Speed", "Reliability", "Comfort", "Efficiency", "Safety"],
+      "colors": ["blue", "red", "teal", "amber", "purple"],
+      "data": [85, 72, 90, 68, 95]
+    }]
+  },
+  "radar": {
+    "type": "radar",
+    "title": "Skill Comparison",
+    "labels": ["Coding", "Design", "Communication", "Leadership", "Problem Solving", "Testing"],
+    "datasets": [
+      { "label": "Developer A", "color": "blue", "data": [90, 65, 70, 55, 85, 75] },
+      { "label": "Developer B", "color": "red", "data": [75, 80, 85, 70, 70, 90] }
+    ]
+  }
+}

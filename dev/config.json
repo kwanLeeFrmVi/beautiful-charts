@@ -1,0 +1,11 @@
+{
+  "type": "line",
+  "title": "Test Chart via bunx",
+  "subtitle": "Running from GitHub repo",
+  "labels": ["Jan", "Feb", "Mar", "Apr", "May"],
+  "yMin": 0,
+  "yPrefix": "$",
+  "datasets": [
+    { "label": "Revenue", "color": "blue", "fill": true, "data": [12000, 19000, 15000, 22000, 28000] }
+  ]
+}

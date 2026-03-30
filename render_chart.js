@@ -229,6 +229,72 @@ function cfgDonut({ datasets }) {
   };
 }
 
+function cfgPie({ datasets }) {
+  const ds = datasets[0] || {};
+  const cnames = ds.colors || PALETTE_ORDER;
+  const colors = (ds.data || []).map((_, i) => colorFor(cnames[i] || '', i));
+  return {
+    type: 'pie',
+    data: {
+      labels: ds.labels || [],
+      datasets: [{ data: ds.data || [], backgroundColor: colors, borderWidth: 2, borderColor: '#ffffff' }],
+    },
+    typeOptions: {},
+  };
+}
+
+function cfgPolarArea({ datasets }) {
+  const ds = datasets[0] || {};
+  const cnames = ds.colors || PALETTE_ORDER;
+  const colors = (ds.data || []).map((_, i) => colorFor(cnames[i] || '', i));
+  return {
+    type: 'polarArea',
+    data: {
+      labels: ds.labels || [],
+      datasets: [{ data: ds.data || [], backgroundColor: colors.map(c => rgba(c, 0.72)), borderWidth: 1, borderColor: '#ffffff' }],
+    },
+    typeOptions: {
+      scales: {
+        r: {
+          grid: { color: COLOR_GRID, lineWidth: 0.6 },
+          ticks: { color: COLOR_MUTED, font: { size: 10 }, backdropColor: 'transparent' },
+        },
+      },
+    },
+  };
+}
+
+function cfgRadar({ labels, datasets }) {
+  return {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: datasets.map((ds, i) => {
+        const c = colorFor(ds.color, i);
+        return {
+          label: ds.label || `Series ${i + 1}`,
+          data: ds.data,
+          borderColor: c,
+          backgroundColor: rgba(c, 0.18),
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: c,
+        };
+      }),
+    },
+    typeOptions: {
+      scales: {
+        r: {
+          grid: { color: COLOR_GRID, lineWidth: 0.6 },
+          angleLines: { color: COLOR_GRID, lineWidth: 0.6 },
+          pointLabels: { color: COLOR_MUTED, font: { size: 11 } },
+          ticks: { color: COLOR_MUTED, font: { size: 10 }, backdropColor: 'transparent' },
+        },
+      },
+    },
+  };
+}
+
 // ── Main render function ─────────────────────────────────────────────────────
 function render(cfg) {
   const {
@@ -246,7 +312,10 @@ function render(cfg) {
     ySuffix: suf = '',
   } = cfg;
 
-  const BUILDERS = { line: cfgLine, bar: cfgBar, hbar: cfgHBar, area: cfgArea, scatter: cfgScatter, donut: cfgDonut };
+  const BUILDERS = {
+    line: cfgLine, bar: cfgBar, hbar: cfgHBar, area: cfgArea, scatter: cfgScatter,
+    donut: cfgDonut, pie: cfgPie, polarArea: cfgPolarArea, radar: cfgRadar,
+  };
   const { type: chartType, data, typeOptions } = (BUILDERS[type] ?? BUILDERS.line)({
     labels, datasets, pre, suf, ymin, ymax,
   });
@@ -254,10 +323,10 @@ function render(cfg) {
   const hasHeader = !!(title || subtitle);
   const topPad = hasHeader ? (title && subtitle ? 56 : 38) : 12;
   const bottomPad = source ? 20 : 6;
-  const isDonut = type === 'donut';
+  const isCircular = ['donut', 'pie', 'polarArea'].includes(type);
   const multiSeries = datasets.length > 1;
 
-  const legendCfg = isDonut
+  const legendCfg = isCircular
     ? {
       display: true,
       position: 'right',
