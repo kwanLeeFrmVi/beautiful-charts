@@ -1,15 +1,37 @@
 {
-  "name": "beautiful-charts",
+  "name": "beautiful-chartsjs",
   "version": "2.0.0",
   "description": "Beautiful Chart renderer — Bun + Chart.js, zero system deps",
+  "author": "quanle96",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwanLeeFrmVi/beautiful-charts.git"
+  },
+  "homepage": "https://github.com/kwanLeeFrmVi/beautiful-charts#readme",
+  "bugs": {
+    "url": "https://github.com/kwanLeeFrmVi/beautiful-charts/issues"
+  },
   "bin": {
     "beautiful-charts": "./render_chart.js"
   },
+  "files": [
+    "render_chart.js",
+    "README.md"
+  ],
   "type": "module",
+  "engines": {
+    "bun": ">=1.3.0"
+  },
   "dependencies": {
     "chart.js": "^4.4.0",
     "@napi-rs/canvas": "^0.1.53"
   },
-  "keywords": ["charts", "visualization", "chartjs", "bun", "png"],
+  "keywords": [
+    "charts",
+    "visualization",
+    "chartjs",
+    "bun",
+    "png"
+  ],
   "license": "MIT"
 }
