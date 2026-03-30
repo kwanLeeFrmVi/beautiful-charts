@@ -1,0 +1,11 @@
+{
+  "type": "line",
+  "title": "Crude oil prices",
+  "subtitle": "$/barrel",
+  "labels": ["Mar 21", "Mar 23", "Mar 24", "Mar 25"],
+  "yMin": 80, "yMax": 120, "yPrefix": "$",
+  "datasets": [
+    { "label": "WTI",   "color": "blue", "fill": true,  "data": [112.0, 88.13, 91.61, 90.98] },
+    { "label": "Brent", "color": "red",  "fill": false, "data": [112.0, 99.94, 103.0, 101.5] }
+  ]
+}

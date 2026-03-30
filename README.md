@@ -1,6 +1,6 @@
 # Beautiful Charts
 
-A skill for rendering beautiful, publication-quality chart images (transparent PNG) from structured data using matplotlib.
+A skill for rendering beautiful, publication-quality chart images (transparent PNG) from structured data using **Bun + Chart.js**. No Python or system dependencies required.
 
 ## Installation
 
@@ -11,20 +11,20 @@ npx skill add kwanLeeFrmVi/beautiful-charts
 ## Features
 
 - **Multiple chart types**: Line, bar, horizontal bar, area, scatter, and donut charts
-- **Publication quality**: Renders transparent-background PNG charts at 150 DPI
-- **Clean design system**: Editorial styling with thoughtful defaults
-- **Zero setup**: Auto-installs `matplotlib` and `numpy` on first use via `uv`
+- **Transparent PNG output**: Editorial styling with a clean design system
+- **Zero system deps**: Uses `@napi-rs/canvas` (pre-built binaries) — no Cairo/Python needed
+- **One-liner run**: `bunx -y` downloads and executes on demand
 
 ## Prerequisites
 
-Install `uv` (one-time setup):
+Install **Bun** (one-time setup):
 
 ```bash
 # macOS / Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
+curl -fsSL https://bun.sh/install | bash
 
 # Windows
-winget install astral-sh.uv
+powershell -c "irm bun.sh/install.ps1|iex"
 ```
 
 ## Usage
@@ -32,23 +32,23 @@ winget install astral-sh.uv
 ### Quick Start
 
 1. Create a chart configuration JSON file
-2. Run the renderer with `uv run`
+2. Run the renderer with `bunx`
 3. View the generated PNG
 
 ```bash
-uv run render_chart.py chart_config.json output.png
+bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts chart_config.json output.png
 ```
 
 ### Chart Types
 
-| Chart Type | Use Case | Config Type |
-|------------|----------|-------------|
-| `line` | Trend over time | `line` |
-| `bar` | Period comparisons | `bar` |
-| `hbar` | Rankings / long labels | `hbar` |
-| `area` | Filled trend | `area` |
-| `scatter` | Correlation | `scatter` |
-| `donut` | Part-of-whole (≤6 slices) | `donut` |
+| Chart Type | Use Case                  | Config Type |
+| ---------- | ------------------------- | ----------- |
+| `line`     | Trend over time           | `line`      |
+| `bar`      | Period comparisons        | `bar`       |
+| `hbar`     | Rankings / long labels    | `hbar`      |
+| `area`     | Filled trend              | `area`      |
+| `scatter`  | Correlation               | `scatter`   |
+| `donut`    | Part-of-whole (≤6 slices) | `donut`     |
 
 ### Configuration Format
 
@@ -79,14 +79,14 @@ uv run render_chart.py chart_config.json output.png
 
 Use these color names (not hex codes):
 
-| Name | Hex | Use Case |
-|------|-----|----------|
-| `blue` | `#185FA5` | 1st / primary |
-| `red` | `#E24B4A` | 2nd / negative |
-| `teal` | `#1D9E75` | 3rd / positive |
-| `amber` | `#BA7517` | 4th / warning |
-| `purple` | `#534AB7` | 5th |
-| `gray` | `#888780` | neutral / other |
+| Name     | Hex       | Use Case        |
+| -------- | --------- | --------------- |
+| `blue`   | `#185FA5` | 1st / primary   |
+| `red`    | `#E24B4A` | 2nd / negative  |
+| `teal`   | `#1D9E75` | 3rd / positive  |
+| `amber`  | `#BA7517` | 4th / warning   |
+| `purple` | `#534AB7` | 5th             |
+| `gray`   | `#888780` | neutral / other |
 
 ### Examples
 
@@ -102,8 +102,18 @@ Use these color names (not hex codes):
   "yMax": 120,
   "yPrefix": "$",
   "datasets": [
-    { "label": "WTI", "color": "blue", "fill": true, "data": [112.0, 88.13, 91.61, 90.98] },
-    { "label": "Brent", "color": "red", "fill": false, "data": [112.0, 99.94, 103.0, 101.5] }
+    {
+      "label": "WTI",
+      "color": "blue",
+      "fill": true,
+      "data": [112.0, 88.13, 91.61, 90.98]
+    },
+    {
+      "label": "Brent",
+      "color": "red",
+      "fill": false,
+      "data": [112.0, 99.94, 103.0, 101.5]
+    }
   ]
 }
 ```
@@ -132,31 +142,42 @@ Use these color names (not hex codes):
 {
   "type": "donut",
   "title": "Browser share 2026",
-  "datasets": [{
-    "labels": ["Chrome", "Safari", "Firefox", "Edge", "Other"],
-    "colors": ["blue", "red", "amber", "teal", "gray"],
-    "data": [65, 18, 7, 5, 5]
-  }]
+  "datasets": [
+    {
+      "labels": ["Chrome", "Safari", "Firefox", "Edge", "Other"],
+      "colors": ["blue", "red", "amber", "teal", "gray"],
+      "data": [65, 18, 7, 5, 5]
+    }
+  ]
 }
 ```
 
 ## Sizing Guide
 
-| Use Case | Dimensions |
-|----------|------------|
-| Default | 900 × 480 |
-| Wide panel | 1200 × 400 |
-| Square / social | 800 × 800 |
+| Use Case                | Dimensions         |
+| ----------------------- | ------------------ |
+| Default                 | 900 × 480          |
+| Wide panel              | 1200 × 400         |
+| Square / social         | 800 × 800          |
 | Horizontal bar (N rows) | 900 × (N×48 + 100) |
-| Thumbnail | 600 × 320 |
+| Thumbnail               | 600 × 320          |
 
 ## Schema Reference
 
 See `skills/beautiful-charts/schemas.md` for detailed dataset schemas for each chart type.
 
+## How It Works
+
+The renderer (`render_chart.js`) uses:
+
+- **[Bun](https://bun.sh)** — JS runtime with native TypeScript/ESM support
+- **[Chart.js 4](https://www.chartjs.org)** — chart rendering
+- **[@napi-rs/canvas](https://github.com/Brooooooklyn/canvas)** — server-side Canvas API with pre-built binaries (no Cairo)
+
 ## Triggers
 
 This skill is automatically triggered when users ask to:
+
 - Draw, plot, chart, or graph data
 - Visualize numbers or tables
 - Create bar charts, line graphs, pie/donut charts, scatter plots

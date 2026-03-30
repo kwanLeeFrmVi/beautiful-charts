@@ -1,0 +1,15 @@
+{
+  "name": "beautiful-charts",
+  "version": "2.0.0",
+  "description": "Beautiful Chart renderer — Bun + Chart.js, zero system deps",
+  "bin": {
+    "beautiful-charts": "./render_chart.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "@napi-rs/canvas": "^0.1.53"
+  },
+  "keywords": ["charts", "visualization", "chartjs", "bun", "png"],
+  "license": "MIT"
+}
