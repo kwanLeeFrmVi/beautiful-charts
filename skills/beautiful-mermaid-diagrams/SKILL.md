@@ -23,7 +23,7 @@ Renders transparent-background PNG diagrams directly using `@mermaid-js/mermaid-
 Write diagram.mmd  →  bunx -y @mermaid-js/mermaid-cli -i diagram.mmd -o ~/diagram.png -b transparent -s 2  →  view ~/diagram.png
 ```
 
-> **Display rule:** `view ./diagram.png` renders inline in chat.
+> **Display rule:** `view ./diagram.png` or `![diagram.png](./diagram.png)` to renders inline in chat.
 > `present_files` alone shows a download button with no preview — always call `view` first.
 
 ---

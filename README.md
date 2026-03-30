@@ -250,7 +250,7 @@ bunx -y @mermaid-js/mermaid-cli -i sequence.mmd -o diagram.png -b transparent -t
 #### Class Diagram
 
 ```mermaid
-classDiagram;
+classDiagram
     class User {
         +String name;
         +String email;
