@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * render_chart.js — Beautiful Chart Renderer (Bun + Chart.js)
- * Usage: bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts config.json [output.png]
+ * Usage: bunx -y beautiful-chartsjs config.json [output.png]
  *
  * If output path is given  → saves PNG file to that path
  * If output path is absent → prints base64 JSON block to stdout so Claude
@@ -395,12 +395,65 @@ function render(cfg) {
 }
 
 // ── CLI entry point ──────────────────────────────────────────────────────────
-const [, , cfgPath, outPath] = process.argv;
+const [, , arg1, outPath] = process.argv;
 
-if (!cfgPath) {
-  console.error('Usage: bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts config.json [output.png]');
+const HELP_TEXT = `
+Beautiful Chart Renderer — Generate PNG charts from JSON config
+
+USAGE
+  bunx -y beautiful-chartsjs <config.json> [output.png]
+  bunx -y beautiful-chartsjs --help | -h
+
+ARGUMENTS
+  config.json   Path to JSON configuration file (required)
+  output.png    Output PNG file path (optional)
+                - If provided: saves PNG to file
+                - If omitted: prints base64 JSON to stdout
+
+CHART TYPES
+  line        Line chart with points
+  bar         Vertical bar chart
+  hbar        Horizontal bar chart
+  area        Filled area chart
+  scatter     Bubble/scatter chart
+  donut       Donut chart
+  pie         Pie chart
+  polarArea   Polar area chart
+  radar       Radar chart
+
+CONFIG OPTIONS
+  type        Chart type (default: "line")
+  title       Chart title
+  subtitle    Chart subtitle
+  source      Source attribution (shown at bottom)
+  labels      X-axis labels (array)
+  datasets    Array of { label, data, color, fill? }
+  width       Canvas width in px (default: 900)
+  height      Canvas height in px (default: 480)
+  yMin        Y-axis minimum value
+  yMax        Y-axis maximum value
+  yPrefix     Y-axis value prefix (e.g., "$")
+  ySuffix     Y-axis value suffix (e.g., "%")
+
+COLORS
+  blue, red, teal, amber, purple, gray
+
+EXAMPLE
+  bunx -y beautiful-chartsjs chart.json output.png
+`;
+
+if (arg1 === '--help' || arg1 === '-h') {
+  console.log(HELP_TEXT);
+  process.exit(0);
+}
+
+if (!arg1) {
+  console.error('Usage: bunx -y beautiful-chartsjs config.json [output.png]');
+  console.error('Run with --help for more information.');
   process.exit(1);
 }
+
+const cfgPath = arg1;
 
 let cfg;
 try {

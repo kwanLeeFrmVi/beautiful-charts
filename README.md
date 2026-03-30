@@ -36,7 +36,7 @@ powershell -c "irm bun.sh/install.ps1|iex"
 3. View the generated PNG
 
 ```bash
-bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts chart_config.json output.png
+bunx -y beautiful-chartsjs chart_config.json output.png
 ```
 
 ### Chart Types

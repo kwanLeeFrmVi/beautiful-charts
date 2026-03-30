@@ -28,7 +28,7 @@ Renders transparent-background PNG charts using Bun + Chart.js with a clean, edi
 ## Pipeline
 
 ```
-Write chart_config.json  →  bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts config.json ~/chart.png  →  view ~/chart.png
+Write chart_config.json  →  bunx -y beautiful-chartsjs config.json ~/chart.png  →  view ~/chart.png
 ```
 
 No install required — `bunx` downloads and runs the renderer on demand. Requires **Bun** (one-time setup).
@@ -93,7 +93,7 @@ Full dataset schemas for every chart type: see [references/schemas.md](reference
 
 ```bash
 # Render
-bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts chart_config.json /home/claude/chart.png
+bunx -y beautiful-chartsjs chart_config.json /home/claude/chart.png
 
 # Show inline in chat (REQUIRED)
 # → call the view tool on /home/claude/chart.png
@@ -184,10 +184,10 @@ cp /home/claude/chart.png /mnt/user-data/outputs/chart.png
 
 ## Common mistakes
 
-| Wrong                      | Right                                                      |
-| -------------------------- | ---------------------------------------------------------- |
-| Only `present_files`       | Call `view` first                                          |
-| `node render_chart.js`     | `bunx -y https://github.com/kwanLeeFrmVi/beautiful-charts` |
-| Hex in `"color"` field     | Use name: `"blue"`                                         |
-| Donut top-level `"labels"` | Use `datasets[0].labels`                                   |
-| Auto y-axis on price data  | Set `"yMin"` explicitly                                    |
+| Wrong                      | Right                        |
+| -------------------------- | ---------------------------- |
+| Only `present_files`       | Call `view` first            |
+| `node render_chart.js`     | `bunx -y beautiful-chartsjs` |
+| Hex in `"color"` field     | Use name: `"blue"`           |
+| Donut top-level `"labels"` | Use `datasets[0].labels`     |
+| Auto y-axis on price data  | Set `"yMin"` explicitly      |
