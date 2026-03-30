@@ -24,7 +24,7 @@ Renders transparent-background PNG charts using Chart.js with a clean, editorial
 Write chart_config.json  →  bunx -y beautiful-chartsjs config.json ./chart.png  →  view ./chart.png
 ```
 
-> **Display rule:** `view ./chart.png` or `present_files![chart.png](./chart.png)` to renders inline in chat.
+> **Display rule:** `view ./chart.png` or `![chart.png](./chart.png)` to renders inline in chat.
 > `present_files` alone shows a download button with no preview — always call `view` first.
 
 ---
