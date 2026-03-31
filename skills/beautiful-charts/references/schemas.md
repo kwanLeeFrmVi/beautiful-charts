@@ -1,6 +1,6 @@
 # Dataset Schemas & Sizing Reference
 
-Full dataset schemas for every chart type supported by `render_chart.py`.
+Full dataset schemas for every chart type supported by `beautiful-chartsjs` (Bun + Chart.js).
 
 ---
 
